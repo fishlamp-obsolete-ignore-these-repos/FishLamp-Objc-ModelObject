@@ -247,17 +247,16 @@ LazySelectorGetter(selector, _selector, _attributes.selector)
     }
 }
 
-- (void) addContainedProperty:(NSString*) name withClass:(Class) aClass {
-
-    [self addContainedProperty:[FLPropertyDescriber propertyDescriber:name class:aClass]];
-}
-
 - (void) addContainedProperty:(FLPropertyDescriber*) propertyDescriber {
     if(!_containedTypes) {
         _containedTypes = [[NSMutableArray alloc] init];
     }
 
     [_containedTypes addObject:propertyDescriber];
+}
+
+- (void) addContainedProperty:(NSString*) name withClass:(Class) aClass {
+    [self addContainedProperty:[FLPropertyDescriber propertyDescriber:name class:aClass]];
 }
 
 - (NSString*) description {
@@ -321,7 +320,7 @@ LazySelectorGetter(selector, _selector, _attributes.selector)
 }
 
 - (NSString*) stringEncodingKeyForRepresentedData {
-    return [[self representedObjectClass] stringEncodingKey];
+    return [[self representedObjectClass] typeNameForStringSerialization];
 }
 
 @end
@@ -377,7 +376,7 @@ LazySelectorGetter(selector, _selector, _attributes.selector)
 @implementation FLNumberPropertyDescriber 
 
 - (NSString*) stringEncodingKeyForRepresentedData {
-    return [NSNumber stringEncodingKey];
+    return [NSNumber typeNameForStringSerialization];
 }
 
 @end
@@ -386,7 +385,7 @@ LazySelectorGetter(selector, _selector, _attributes.selector)
 
 
 - (NSString*) stringEncodingKeyForRepresentedData {
-    return [FLBoolStringEncoder stringEncodingKey];
+    return [FLBoolStringToNSNumberObjectConverter typeNameForStringSerialization];
 }
 
 @end
